@@ -50,9 +50,9 @@ input,textarea{font-family:inherit;outline:none}
 .avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;font-size:18px;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .ci-info{flex:1;min-width:0}
-.ci-name{font-weight:600;display:flex;align-items:center;gap:4px;font-size:14px}
+.ci-name{font-weight:600;display:flex;align-items:center;gap:4px;font-size:14px;word-break:break-word}
 .ci-preview{font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.verified{color:#1da1f2;font-size:14px}
+.verified{color:#1da1f2;font-size:14px;flex-shrink:0}
 .badge{background:var(--accent);color:#fff;font-size:11px;padding:1px 6px;border-radius:10px;margin-left:auto}
 
 #chat{flex:1;display:flex;flex-direction:column;background:var(--bg)}
@@ -76,7 +76,7 @@ input,textarea{font-family:inherit;outline:none}
 
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px}
 .modal{background:var(--bg);border-radius:16px;padding:18px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;position:relative}
-.modal h3{margin:0 0 12px;font-size:18px}
+.modal h3{margin:0 0 12px;font-size:18px;padding-right:20px}
 .modal input,.modal textarea,.modal select{width:100%;padding:10px;margin:6px 0;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--txt);font-size:14px}
 .modal .row{display:flex;gap:8px;margin-top:10px}
 .modal .row .btn{margin-top:0}
@@ -85,7 +85,7 @@ input,textarea{font-family:inherit;outline:none}
 .attach-menu button{background:transparent;color:var(--txt);padding:12px 16px;text-align:left;font-size:14px}
 .attach-menu button:hover{background:var(--bg2)}
 .sticker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
-.sticker-grid .st{font-size:36px;text-align:center;padding:8px;border-radius:10px;background:var(--bg2);cursor:pointer;border:none}
+.sticker-grid .st{font-size:36px;text-align:center;padding:8px;border-radius:10px;background:var(--bg2);cursor:pointer;border:none;word-break:break-word;line-height:1.2}
 .sticker-grid .st:hover{background:var(--border)}
 .sticker-grid img{width:100%;height:60px;object-fit:contain;background:var(--bg2);border-radius:10px;padding:6px;cursor:pointer}
 .tabs{display:flex;gap:6px;margin-bottom:10px}
@@ -337,6 +337,7 @@ function fmtDate(t){ var d = new Date(t); var today = new Date(); if(d.toDateStr
 function chatId(a,b){ return [a,b].sort().join('__'); }
 function initials(n){ return String(n||'?').trim().charAt(0).toUpperCase(); }
 function isImg(u){ return /\.(png|jpe?g|gif|webp|avif|svg)(\?|#|$)/i.test(u||''); }
+function isValidUrl(u){ try{ var p = new URL(u); return p.protocol === 'http:' || p.protocol === 'https:'; }catch(e){ return false; } }
 function validUser(u){ return /^[a-zA-Z0-9_]{3,20}$/.test(u); }
 
 function toast(msg){
@@ -346,10 +347,14 @@ function toast(msg){
   clearTimeout(t._h);
   t._h = setTimeout(function(){ t.classList.remove('show'); }, 2500);
 }
-function avatarHTML(u){
+function avatarHTML(u, extraClass){
+  var cls = 'avatar' + (extraClass ? ' ' + extraClass : '');
   var av = u && u.avatar;
-  if(av) return '<div class="avatar"><img src="'+esc(av)+'" onerror="this.style.display=\'none\'"></div>';
-  return '<div class="avatar">'+esc(initials(u && (u.name || u.user)))+'</div>';
+  if(av && isValidUrl(av)) {
+    /* onerror вешает заглушку, чтобы оранжевый круг не оставался */
+    return '<div class="'+cls+'"><img src="'+esc(av)+'" onerror="this.style.display=\'none\'; this.parentNode.textContent=\''+esc(initials(u && (u.name || u.user)))+'\'"></div>';
+  }
+  return '<div class="'+cls+'">'+esc(initials(u && (u.name || u.user)))+'</div>';
 }
 function openModal(html){
   $('#modalRoot').innerHTML = '<div class="modal-bg"><div class="modal">'+html+'</div></div>';
@@ -376,7 +381,7 @@ function loadSession(){
 /* ============ ТЕМА ============ */
 function applyTheme(){ document.body.classList.toggle('dark', !!(state.me && state.me.dark)); }
 
-/* ============ ОЧИСТКА ВСЕГО СОСТОЯНИЯ ============ */
+/* ============ ОЧИСТКА ============ */
 function resetAllState(){
   stopPolling();
   state.me = null;
@@ -389,7 +394,6 @@ function resetAllState(){
   state.tab = 'chats';
   state.lastSeenMsgKey = null;
 }
-
 function clearAllUI(){
   $('#chatList').innerHTML = '';
   $('#messages').innerHTML = '';
@@ -441,11 +445,9 @@ function login(){
 }
 
 function loginSuccess(profile){
-  /* чистим всё старое до входа */
   resetAllState();
   clearAllUI();
   applyTheme();
-
   state.me = profile;
   saveSession();
   applyTheme();
@@ -460,7 +462,6 @@ function logout(){
   clearAllUI();
   clearSession();
   applyTheme();
-
   $('#auth').classList.remove('hidden');
   $('#authErr').textContent = '';
   $('#l_user').value = '';
@@ -639,7 +640,7 @@ function adminAction(user, act){
     .catch(function(e){ console.error(e); toast('Ошибка'); });
 }
 
-/* ============ ЧАТ (БЫСТРОЕ ОТКРЫТИЕ) ============ */
+/* ============ ЧАТ ============ */
 function openChat(other){
   state.currentChat = { id: chatId(state.me.user, other.user), other: other };
   document.body.classList.add('chat-open');
@@ -648,11 +649,15 @@ function openChat(other){
   $('#backBtn').style.display = window.innerWidth <= 700 ? 'block' : 'none';
 
   var av = $('#chatAvatar');
-  if(other.avatar){
-    av.innerHTML = '<img src="'+esc(other.avatar)+'" onerror="this.style.display=\'none\'">';
+  av.innerHTML = '';
+  if(other.avatar && isValidUrl(other.avatar)){
+    var img = document.createElement('img');
+    img.src = other.avatar;
+    img.onerror = function(){ av.textContent = initials(other.name || other.user); };
+    av.appendChild(img);
     av.style.background = 'transparent';
   } else {
-    av.innerHTML = esc(initials(other.name || other.user));
+    av.textContent = initials(other.name || other.user);
     av.style.background = '';
   }
 
@@ -708,7 +713,7 @@ function renderMessages(){
     else if(m.type === 'photo') inner = (m.text ? esc(m.text) + '<br>' : '') + '<img src="' + esc(m.url) + '" onclick="window.open(this.src,\'_blank\')" onerror="this.replaceWith(document.createTextNode(\'[битое фото]\'))">';
     else if(m.type === 'gif') inner = (m.text ? esc(m.text) + '<br>' : '') + '<img class="gif" src="' + esc(m.url) + '" onclick="window.open(this.src,\'_blank\')">';
     else if(m.type === 'sticker'){
-      if(m.url && isImg(m.url)) inner = '<img class="sticker-img" src="' + esc(m.url) + '">';
+      if(m.url && isValidUrl(m.url)) inner = '<img class="sticker-img" src="' + esc(m.url) + '">';
       else inner = '<div class="sticker">' + esc(m.emoji || '🌟') + '</div>';
     }
     div.innerHTML = inner + '<div class="time">' + fmtTime(m.time) + '</div>';
@@ -778,7 +783,7 @@ function attachPhoto(kind){
   $('#attSend').onclick = function(){
     var url = $('#attUrl').value.trim();
     var text = $('#attText').value.trim();
-    if(!url){ toast('Вставь ссылку'); return; }
+    if(!url || !isValidUrl(url)){ toast('Некорректная ссылка'); return; }
     closeModal();
     pushMessage({type: kind, url: url, text: text});
   };
@@ -797,7 +802,7 @@ function openStickerPicker(){
         html += '<div style="margin:10px 0"><div style="font-weight:700;color:var(--accent)">' + esc(p.name) +
           ' <span style="color:var(--sub);font-weight:400;font-size:11px">@' + esc(owner) + '</span></div><div class="sticker-grid">';
         (p.stickers || []).forEach(function(s){
-          if(isImg(s)) html += '<img src="' + esc(s) + '" data-st="' + esc(s) + '">';
+          if(isValidUrl(s)) html += '<img src="' + esc(s) + '" data-st="' + esc(s) + '">';
           else html += '<button class="st" data-emoji="' + esc(s) + '">' + esc(s) + '</button>';
         });
         html += '</div></div>';
@@ -875,7 +880,17 @@ function botReply(text, cid, botUser){
         }).catch(function(e){ console.error(e); sendBot('Не смог создать пак.'); });
       }
 
-      packData.stickers.push(text.trim());
+      /* === ПРОВЕРКА: стикер должен быть ссылкой ИЛИ эмодзи (макс 4 символа) === */
+      var stickerVal = text.trim();
+      var isUrlSticker = isValidUrl(stickerVal);
+      var isEmojiSticker = stickerVal.length <= 4 && !isUrlSticker;
+
+      if(!isUrlSticker && !isEmojiSticker){
+        sendBot('❌ Это не стикер!\nСтикер — это ссылка на фото/GIF (начинается с http) или эмодзи (не больше 4 символов).\nПопробуй ещё раз или напиши «готово».');
+        return;
+      }
+
+      packData.stickers.push(stickerVal);
       return api(packKey, {method:'PUT', body: JSON.stringify(packData)}).then(function(){
         state.stickerPacks = {};
         sendBot('Добавлено! Стикеров: ' + packData.stickers.length);
@@ -894,14 +909,14 @@ function showProfile(user){
   var mine = state.me.user === user;
 
   var html = '<button class="close-x" onclick="closeModal()">×</button>' +
-    '<div class="avatar-upload">' + avatarHTML(u) + '<div><div style="font-size:18px;font-weight:700">' +
+    '<div class="avatar-upload">' + avatarHTML(u, 'av-64') + '<div style="min-width:0"><div style="font-size:18px;font-weight:700;word-break:break-word">' +
     esc(u.name) + (u.verified ? ' <span class="verified">✔</span>' : '') +
-    '</div><div style="color:var(--sub)">@' + esc(u.user) + '</div></div></div>' +
+    '</div><div style="color:var(--sub);word-break:break-word">@' + esc(u.user) + '</div></div></div>' +
     '<div style="font-size:13px;color:var(--sub);margin-bottom:8px">' + esc(u.bio || 'Нет описания') + '</div>';
 
   if(mine){
     html += '<div class="settings-sec"><h4>Изменить аватар</h4>' +
-      '<input id="p_avatar" placeholder="Ссылка на фото" value="' + esc(u.avatar || '') + '">' +
+      '<input id="p_avatar" placeholder="Ссылка на фото (http...)" value="' + esc(u.avatar || '') + '">' +
       '<h4 style="margin-top:10px">Профиль</h4>' +
       '<input id="p_name" placeholder="Имя" value="' + esc(u.name) + '">' +
       '<input id="p_bio" placeholder="Описание" value="' + esc(u.bio || '') + '">' +
@@ -930,6 +945,7 @@ function saveProfileChanges(){
   var passRaw = $('#p_pass').value;
   if(!validUser(newUser)){ toast('Юзернейм: 3-20, латиница/_'); return; }
   if(!name){ toast('Введи имя'); return; }
+  if(avatar && !isValidUrl(avatar)){ toast('Некорректная ссылка на аватар'); return; }
 
   var update = {name:name, bio:bio, avatar:avatar};
   if(passRaw) update.pass = hashPass(passRaw);
@@ -1064,7 +1080,7 @@ function openStories(){
 
   $('#storyAdd').onclick = function(){
     var url = $('#storyUrl').value.trim();
-    if(!url){ toast('Вставь ссылку'); return; }
+    if(!url || !isValidUrl(url)){ toast('Некорректная ссылка'); return; }
     var key = nowTs();
     api('stories/' + state.me.user + '/' + key, {method:'PUT', body: JSON.stringify({url:url, time:key})})
       .then(function(){ closeModal(); return loadStories(); })
