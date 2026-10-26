@@ -53,7 +53,6 @@ input,textarea{font-family:inherit;outline:none}
 .ci-name{font-weight:600;display:flex;align-items:center;gap:4px;font-size:14px;word-break:break-word}
 .ci-preview{font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .verified{color:#1da1f2;font-size:14px;flex-shrink:0}
-.badge{background:var(--accent);color:#fff;font-size:11px;padding:1px 6px;border-radius:10px;margin-left:auto}
 
 #chat{flex:1;display:flex;flex-direction:column;background:var(--bg)}
 .chat-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);min-height:60px}
@@ -62,14 +61,13 @@ input,textarea{font-family:inherit;outline:none}
 .msg{max-width:75%;padding:8px 12px;border-radius:14px;font-size:14px;word-wrap:break-word;position:relative;line-height:1.35}
 .msg.me{align-self:flex-end;background:var(--msg-me);border-bottom-right-radius:4px}
 .msg.you{align-self:flex-start;background:var(--msg-you);border-bottom-left-radius:4px}
-.msg img,.msg .gif{max-width:220px;max-height:220px;border-radius:10px;display:block;margin-top:4px;cursor:pointer}
+.msg img,.msg .gif{max-width:220px;max-height:220px;border-radius:10px;display:block;margin-top:4px;cursor:pointer;object-fit:cover}
 .msg .time{font-size:10px;color:var(--sub);text-align:right;margin-top:2px}
 .msg .sticker{font-size:80px;line-height:1}
-.msg img.sticker-img{max-width:120px;max-height:120px;background:transparent}
+.msg img.sticker-img{max-width:120px;max-height:120px;background:transparent;object-fit:contain}
 .composer{display:flex;align-items:flex-end;gap:6px;padding:10px;border-top:1px solid var(--border);position:relative}
 .composer textarea{flex:1;resize:none;max-height:120px;padding:10px 12px;border-radius:18px;border:1px solid var(--border);background:var(--bg2);color:var(--txt);font-size:14px;line-height:1.3}
 .send-btn{background:var(--accent);color:#fff;border-radius:50%;width:42px;height:42px;font-size:18px;flex-shrink:0}
-.send-btn:active{opacity:.85}
 
 .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--sub);gap:8px;padding:20px;text-align:center;font-size:14px}
 .empty .logo{font-size:60px}
@@ -81,12 +79,12 @@ input,textarea{font-family:inherit;outline:none}
 .modal .row{display:flex;gap:8px;margin-top:10px}
 .modal .row .btn{margin-top:0}
 .close-x{position:absolute;top:10px;right:14px;background:transparent;color:var(--sub);font-size:24px;line-height:1;padding:0}
-.attach-menu{position:absolute;bottom:70px;left:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;z-index:50;min-width:180px}
-.attach-menu button{background:transparent;color:var(--txt);padding:12px 16px;text-align:left;font-size:14px}
+.attach-menu{position:absolute;bottom:70px;left:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;z-index:50;min-width:200px}
+.attach-menu button{background:transparent;color:var(--txt);padding:12px 16px;text-align:left;font-size:14px;border-bottom:1px solid var(--border)}
+.attach-menu button:last-child{border-bottom:none}
 .attach-menu button:hover{background:var(--bg2)}
 .sticker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
-.sticker-grid .st{font-size:36px;text-align:center;padding:8px;border-radius:10px;background:var(--bg2);cursor:pointer;border:none;word-break:break-word;line-height:1.2}
-.sticker-grid .st:hover{background:var(--border)}
+.sticker-grid .st{font-size:36px;text-align:center;padding:8px;border-radius:10px;background:var(--bg2);cursor:pointer;border:none;word-break:break-word;line-height:1.2;overflow:hidden}
 .sticker-grid img{width:100%;height:60px;object-fit:contain;background:var(--bg2);border-radius:10px;padding:6px;cursor:pointer}
 .tabs{display:flex;gap:6px;margin-bottom:10px}
 .tabs button{flex:1;padding:8px;border-radius:8px;background:var(--bg2);color:var(--txt);font-size:13px}
@@ -98,7 +96,6 @@ input,textarea{font-family:inherit;outline:none}
 .story-view img{max-width:95vw;max-height:80vh;border-radius:12px}
 .story-view .meta{color:#fff;margin-top:12px;font-size:14px;text-align:center}
 .story-view .close{position:absolute;top:20px;right:20px;color:#fff;font-size:30px;background:transparent}
-.pack-item{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--border);border-radius:10px;margin:6px 0}
 .settings-sec{margin:12px 0;padding:12px;background:var(--bg2);border-radius:12px}
 .settings-sec h4{margin:0 0 8px;font-size:14px;color:var(--accent)}
 .toggle{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:14px}
@@ -111,13 +108,14 @@ input,textarea{font-family:inherit;outline:none}
 .mini.red{background:#e74c3c}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:500;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw}
 .toast.show{opacity:1}
+.file-btn{display:block;text-align:center;padding:10px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;margin:6px 0;cursor:pointer;font-size:14px}
+.file-btn input{display:none}
 
 /* ============ АДАПТИВ ============ */
 @media (max-width: 900px){
   #sidebar{width:300px;min-width:300px}
   .msg{max-width:85%}
 }
-
 @media (max-width: 700px){
   html,body{height:100dvh}
   #app{height:100dvh}
@@ -125,61 +123,42 @@ input,textarea{font-family:inherit;outline:none}
   body.chat-open #sidebar{display:none}
   #chat{display:none}
   body.chat-open #chat{display:flex;height:100dvh}
-
   .sb-head{padding:10px;gap:4px}
   .sb-head .name{font-size:15px}
   .icon-btn{font-size:18px;padding:8px;min-width:38px;min-height:38px;display:flex;align-items:center;justify-content:center}
-
   #userSearch{margin:0 8px 6px;width:calc(100% - 16px);font-size:16px}
   .sb-actions{padding:6px 8px;gap:4px}
   .pill{font-size:12px;padding:7px 10px}
-
   .chat-item{padding:10px 12px;gap:8px}
   .avatar{width:42px;height:42px;font-size:16px}
   .ci-name{font-size:14px}
   .ci-preview{font-size:12px}
-
   .chat-head{min-height:52px;padding:8px 10px;gap:6px}
   .chat-head .ci-name{font-size:15px}
   #backBtn{display:flex!important}
-
   #messages{padding:10px 8px;gap:3px}
   .msg{max-width:88%;font-size:15px;padding:7px 11px}
   .msg img,.msg .gif{max-width:200px;max-height:200px}
   .msg .sticker{font-size:64px}
   .msg img.sticker-img{max-width:100px;max-height:100px}
-
   .composer{padding:8px;gap:4px;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
   .composer textarea{font-size:16px;padding:9px 12px}
   .send-btn{width:40px;height:40px;font-size:17px}
   .icon-btn#btnAttach{font-size:20px;padding:6px}
-
   .attach-menu{bottom:60px;left:8px;min-width:180px;max-width:calc(100vw - 20px)}
   .attach-menu button{padding:14px 16px;font-size:15px}
-
   .modal-bg{padding:0;align-items:flex-end}
-  .modal{
-    border-radius:18px 18px 0 0;
-    max-width:100%;
-    max-height:92dvh;
-    padding:16px 16px calc(16px + env(safe-area-inset-bottom));
-    width:100%;
-  }
+  .modal{border-radius:18px 18px 0 0;max-width:100%;max-height:92dvh;padding:16px 16px calc(16px + env(safe-area-inset-bottom));width:100%}
   .modal input,.modal textarea,.modal select{font-size:16px}
-
   .settings-sec{padding:10px}
   .tabs button{font-size:12px;padding:8px 6px}
   .avatar-upload .avatar{width:56px;height:56px}
-
   .sticker-grid{grid-template-columns:repeat(4,1fr);gap:5px}
   .sticker-grid .st{font-size:30px;padding:6px}
   .sticker-grid img{height:56px}
-
   .story-ring{width:56px;height:56px}
-
   .toast{font-size:12px;padding:8px 14px;bottom:calc(14px + env(safe-area-inset-bottom))}
 }
-
 @media (max-width: 380px){
   .sb-head .name{font-size:14px}
   .icon-btn{min-width:34px;padding:6px}
@@ -187,21 +166,12 @@ input,textarea{font-family:inherit;outline:none}
   .composer textarea{font-size:15px}
   .avatar{width:38px;height:38px}
 }
-
-@media (max-height: 500px) and (orientation: landscape){
-  .logo-big{font-size:40px}
-  .auth-card{margin-top:8px;padding:12px}
-  .sb-head{padding:8px}
-  .chat-head{min-height:44px}
-}
-
 @media (min-width: 701px){
   ::-webkit-scrollbar{width:8px;height:8px}
   ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
   ::-webkit-scrollbar-thumb:hover{background:var(--sub)}
   ::-webkit-scrollbar-track{background:transparent}
 }
-
 @supports (padding: max(0px)){
   .composer{padding-bottom:max(8px, env(safe-area-inset-bottom))}
   .attach-menu{bottom:calc(60px + env(safe-area-inset-bottom))}
@@ -265,9 +235,10 @@ input,textarea{font-family:inherit;outline:none}
       <div class="composer">
         <button class="icon-btn" id="btnAttach" title="Вложение">📎</button>
         <div class="attach-menu hidden" id="attachMenu">
-          <button data-att="photo">🖼 Фото (ссылка)</button>
-          <button data-att="gif">🎞 GIF (ссылка)</button>
+          <button data-att="photo">📷 Фото с устройства</button>
+          <button data-att="gif">🖼 Картинка / GIF с устройства</button>
           <button data-att="sticker">🌟 Стикеры</button>
+          <button data-att="photo_url">🔗 Фото по ссылке</button>
         </div>
         <textarea id="msgInput" rows="1" placeholder="Сообщение..."></textarea>
         <button class="send-btn" id="btnSend">➤</button>
@@ -278,6 +249,7 @@ input,textarea{font-family:inherit;outline:none}
 
 <div id="modalRoot"></div>
 <div class="toast" id="toast"></div>
+<input type="file" id="filePicker" accept="image/*" style="display:none">
 
 <script>
 /* ============ ПЕРЕХВАТ ОШИБОК ============ */
@@ -336,9 +308,11 @@ function fmtTime(t){ var d = new Date(t); return d.toLocaleTimeString('ru', {hou
 function fmtDate(t){ var d = new Date(t); var today = new Date(); if(d.toDateString()===today.toDateString()) return fmtTime(t); return d.toLocaleDateString('ru'); }
 function chatId(a,b){ return [a,b].sort().join('__'); }
 function initials(n){ return String(n||'?').trim().charAt(0).toUpperCase(); }
-function isImg(u){ return /\.(png|jpe?g|gif|webp|avif|svg)(\?|#|$)/i.test(u||''); }
 function isValidUrl(u){ try{ var p = new URL(u); return p.protocol === 'http:' || p.protocol === 'https:'; }catch(e){ return false; } }
 function validUser(u){ return /^[a-zA-Z0-9_]{3,20}$/.test(u); }
+function isDataUrl(u){ return /^data:image\//i.test(u||''); }
+function isMediaSrc(u){ return isDataUrl(u) || isValidUrl(u); }
+function isImg(u){ return /\.(png|jpe?g|gif|webp|avif|svg)(\?|#|$)/i.test(u||'') || isDataUrl(u); }
 
 function toast(msg){
   var t = $('#toast');
@@ -350,8 +324,7 @@ function toast(msg){
 function avatarHTML(u, extraClass){
   var cls = 'avatar' + (extraClass ? ' ' + extraClass : '');
   var av = u && u.avatar;
-  if(av && isValidUrl(av)) {
-    /* onerror вешает заглушку, чтобы оранжевый круг не оставался */
+  if(av && isMediaSrc(av)) {
     return '<div class="'+cls+'"><img src="'+esc(av)+'" onerror="this.style.display=\'none\'; this.parentNode.textContent=\''+esc(initials(u && (u.name || u.user)))+'\'"></div>';
   }
   return '<div class="'+cls+'">'+esc(initials(u && (u.name || u.user)))+'</div>';
@@ -363,6 +336,37 @@ function openModal(html){
 }
 function closeModal(){ $('#modalRoot').innerHTML = ''; }
 window.closeModal = closeModal;
+
+/* ============ СЖАТИЕ КАРТИНКИ В BASE64 ============ */
+function compressImage(file, maxSide, quality){
+  maxSide = maxSide || 1000;
+  quality = quality || 0.7;
+  return new Promise(function(resolve, reject){
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var img = new Image();
+      img.onload = function(){
+        var w = img.width, h = img.height;
+        if(w > maxSide || h > maxSide){
+          if(w > h){ h = Math.round(h * maxSide / w); w = maxSide; }
+          else { w = Math.round(w * maxSide / h); h = maxSide; }
+        }
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        try {
+          var dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        } catch(e){ reject(e); }
+      };
+      img.onerror = function(){ reject(new Error('Не удалось прочитать изображение')); };
+      img.src = ev.target.result;
+    };
+    reader.onerror = function(){ reject(new Error('Не удалось прочитать файл')); };
+    reader.readAsDataURL(file);
+  });
+}
 
 /* ============ СЕССИЯ ============ */
 function saveSession(){
@@ -584,8 +588,9 @@ function renderSidebar(){
       div.className = 'chat-item' + (state.currentChat && state.currentChat.id === c.id ? ' active' : '');
       var name = c.other.user === '__barsik_bot__' ? '🤖 Barsik Bot' : (c.other.user === '__sticker_bot__' ? '🤖 Sticker Bot' : esc(c.other.name));
       var verified = c.other.verified ? ' <span class="verified">✔</span>' : '';
+      var preview = c.lastMsg.indexOf('data:') === 0 ? '📷 Фото' : esc(c.lastMsg);
       div.innerHTML = avatarHTML(c.other) + '<div class="ci-info"><div class="ci-name">' + name + verified +
-        '</div><div class="ci-preview">' + esc(c.lastMsg) + '</div></div><div style="font-size:11px;color:var(--sub)">' +
+        '</div><div class="ci-preview">' + preview + '</div></div><div style="font-size:11px;color:var(--sub)">' +
         (c.lastTime ? fmtDate(c.lastTime) : '') + '</div>';
       div.onclick = function(){ openChat(c.other); };
       list.appendChild(div);
@@ -650,7 +655,7 @@ function openChat(other){
 
   var av = $('#chatAvatar');
   av.innerHTML = '';
-  if(other.avatar && isValidUrl(other.avatar)){
+  if(other.avatar && isMediaSrc(other.avatar)){
     var img = document.createElement('img');
     img.src = other.avatar;
     img.onerror = function(){ av.textContent = initials(other.name || other.user); };
@@ -710,10 +715,12 @@ function renderMessages(){
     div.className = 'msg ' + (mine ? 'me' : 'you');
     var inner = '';
     if(m.type === 'text') inner = esc(m.text).replace(/\n/g, '<br>');
-    else if(m.type === 'photo') inner = (m.text ? esc(m.text) + '<br>' : '') + '<img src="' + esc(m.url) + '" onclick="window.open(this.src,\'_blank\')" onerror="this.replaceWith(document.createTextNode(\'[битое фото]\'))">';
-    else if(m.type === 'gif') inner = (m.text ? esc(m.text) + '<br>' : '') + '<img class="gif" src="' + esc(m.url) + '" onclick="window.open(this.src,\'_blank\')">';
+    else if(m.type === 'photo' || m.type === 'gif'){
+      var extra = m.type === 'gif' ? ' class="gif"' : '';
+      inner = (m.text ? esc(m.text) + '<br>' : '') + '<img'+extra+' src="' + esc(m.url) + '" onerror="this.replaceWith(document.createTextNode(\'[фото недоступно]\'))">';
+    }
     else if(m.type === 'sticker'){
-      if(m.url && isValidUrl(m.url)) inner = '<img class="sticker-img" src="' + esc(m.url) + '">';
+      if(m.url && isMediaSrc(m.url)) inner = '<img class="sticker-img" src="' + esc(m.url) + '">';
       else inner = '<div class="sticker">' + esc(m.emoji || '🌟') + '</div>';
     }
     div.innerHTML = inner + '<div class="time">' + fmtTime(m.time) + '</div>';
@@ -745,8 +752,8 @@ function pushMessage(msg){
   var key = nowTs() + '_' + Math.random().toString(36).slice(2,6);
   var full = Object.assign({ from: state.me.user, to: state.currentChat.other.user, time: nowTs(), key: key }, msg);
   var preview = msg.type === 'text' ? msg.text :
-                (msg.type === 'photo' ? '🖼 Фото' :
-                (msg.type === 'gif' ? '🎞 GIF' :
+                (msg.type === 'photo' ? '📷 Фото' :
+                (msg.type === 'gif' ? '🖼 Картинка' :
                 (msg.type === 'sticker' ? '🌟 Стикер' : '...')));
   return api('chats/' + cid + '/messages/' + key, {method:'PUT', body: JSON.stringify(full)})
     .then(function(){
@@ -763,6 +770,44 @@ function pushMessage(msg){
     .catch(function(e){ console.error(e); toast('Не отправилось'); });
 }
 
+/* ============ ВЫБОР ФАЙЛА ============ */
+var pendingFileKind = null;
+var pendingFileCallback = null;
+
+function pickFile(kind, callback){
+  pendingFileKind = kind;
+  pendingFileCallback = callback || null;
+  var fp = $('#filePicker');
+  fp.value = '';
+  fp.click();
+}
+
+$('#filePicker').addEventListener('change', function(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  if(!/^image\//i.test(file.type)){ toast('Это не картинка'); return; }
+  if(file.size > 8 * 1024 * 1024){ toast('Файл больше 8 МБ'); return; }
+
+  var maxSide = pendingFileKind === 'avatar' ? 300 :
+                (pendingFileKind === 'sticker' ? 400 : 1000);
+  var quality = pendingFileKind === 'avatar' ? 0.8 :
+                (pendingFileKind === 'sticker' ? 0.85 : 0.72);
+
+  toast('Обработка фото…');
+  compressImage(file, maxSide, quality).then(function(dataUrl){
+    if(pendingFileCallback){ pendingFileCallback(dataUrl); }
+    else {
+      pushMessage({type: pendingFileKind === 'gif' ? 'gif' : 'photo', url: dataUrl});
+    }
+  }).catch(function(err){
+    console.error(err);
+    toast('Не удалось обработать фото');
+  }).then(function(){
+    pendingFileKind = null;
+    pendingFileCallback = null;
+  });
+});
+
 /* ============ ВЛОЖЕНИЯ ============ */
 function openAttachMenu(){ $('#attachMenu').classList.toggle('hidden'); }
 
@@ -773,11 +818,16 @@ document.addEventListener('click', function(e){
   m.classList.add('hidden');
 });
 
-function attachPhoto(kind){
+function attachPhotoFromDevice(kind){
+  $('#attachMenu').classList.add('hidden');
+  pickFile(kind === 'gif' ? 'gif' : 'photo');
+}
+
+function attachPhotoByUrl(){
   $('#attachMenu').classList.add('hidden');
   openModal('<button class="close-x" onclick="closeModal()">×</button>' +
-    '<h3>' + (kind === 'photo' ? '🖼 Фото' : '🎞 GIF') + '</h3>' +
-    '<input id="attUrl" placeholder="Вставь ссылку на изображение">' +
+    '<h3>🔗 Фото по ссылке</h3>' +
+    '<input id="attUrl" placeholder="https://...">' +
     '<input id="attText" placeholder="Подпись (необязательно)">' +
     '<div class="row"><button class="btn" id="attSend">Отправить</button></div>');
   $('#attSend').onclick = function(){
@@ -785,7 +835,7 @@ function attachPhoto(kind){
     var text = $('#attText').value.trim();
     if(!url || !isValidUrl(url)){ toast('Некорректная ссылка'); return; }
     closeModal();
-    pushMessage({type: kind, url: url, text: text});
+    pushMessage({type:'photo', url: url, text: text});
   };
 }
 
@@ -802,7 +852,7 @@ function openStickerPicker(){
         html += '<div style="margin:10px 0"><div style="font-weight:700;color:var(--accent)">' + esc(p.name) +
           ' <span style="color:var(--sub);font-weight:400;font-size:11px">@' + esc(owner) + '</span></div><div class="sticker-grid">';
         (p.stickers || []).forEach(function(s){
-          if(isValidUrl(s)) html += '<img src="' + esc(s) + '" data-st="' + esc(s) + '">';
+          if(isMediaSrc(s)) html += '<img src="' + esc(s) + '" data-st="' + esc(s) + '">';
           else html += '<button class="st" data-emoji="' + esc(s) + '">' + esc(s) + '</button>';
         });
         html += '</div></div>';
@@ -875,18 +925,17 @@ function botReply(text, cid, botUser){
         packData.name = text.slice(0,30);
         return api(packKey, {method:'PUT', body: JSON.stringify(packData)}).then(function(){
           sendBot('Готово! Пак «' + packData.name + '» создан.\n' +
-            'Теперь присылай ссылки на фото/GIF или эмодзи — я добавлю их в пак.\n' +
+            'Теперь присылай ссылки на картинки, эмодзи — или жми 📷 и загружай фото с устройства.\n' +
             'Напиши «готово», чтобы завершить.');
         }).catch(function(e){ console.error(e); sendBot('Не смог создать пак.'); });
       }
 
-      /* === ПРОВЕРКА: стикер должен быть ссылкой ИЛИ эмодзи (макс 4 символа) === */
       var stickerVal = text.trim();
       var isUrlSticker = isValidUrl(stickerVal);
       var isEmojiSticker = stickerVal.length <= 4 && !isUrlSticker;
 
       if(!isUrlSticker && !isEmojiSticker){
-        sendBot('❌ Это не стикер!\nСтикер — это ссылка на фото/GIF (начинается с http) или эмодзи (не больше 4 символов).\nПопробуй ещё раз или напиши «готово».');
+        sendBot('❌ Это не стикер!\nПришли ссылку на картинку, эмодзи (до 4 символов) или фото с устройства через 📷.\nИли напиши «готово».');
         return;
       }
 
@@ -915,8 +964,10 @@ function showProfile(user){
     '<div style="font-size:13px;color:var(--sub);margin-bottom:8px">' + esc(u.bio || 'Нет описания') + '</div>';
 
   if(mine){
-    html += '<div class="settings-sec"><h4>Изменить аватар</h4>' +
-      '<input id="p_avatar" placeholder="Ссылка на фото (http...)" value="' + esc(u.avatar || '') + '">' +
+    html += '<div class="settings-sec">' +
+      '<h4>Аватар</h4>' +
+      '<label class="file-btn">📷 Загрузить фото с устройства<input type="file" accept="image/*" id="avatarFile"></label>' +
+      '<input id="p_avatar" placeholder="Или вставь ссылку" value="' + esc(u.avatar && !isDataUrl(u.avatar) ? u.avatar : '') + '">' +
       '<h4 style="margin-top:10px">Профиль</h4>' +
       '<input id="p_name" placeholder="Имя" value="' + esc(u.name) + '">' +
       '<input id="p_bio" placeholder="Описание" value="' + esc(u.bio || '') + '">' +
@@ -930,6 +981,21 @@ function showProfile(user){
   openModal(html);
 
   if(mine){
+    var af = $('#avatarFile');
+    if(af){
+      af.addEventListener('change', function(e){
+        var file = e.target.files[0];
+        if(!file) return;
+        if(!/^image\//i.test(file.type)){ toast('Это не картинка'); return; }
+        toast('Обработка аватара…');
+        compressImage(file, 300, 0.8).then(function(dataUrl){
+          $('#p_avatar').value = dataUrl;
+          var avBox = document.querySelector('.avatar-upload .avatar');
+          if(avBox) avBox.innerHTML = '<img src="'+dataUrl+'">';
+          toast('Аватар загружен. Нажми «Сохранить»');
+        }).catch(function(){ toast('Ошибка'); });
+      });
+    }
     $('#saveProfile').onclick = saveProfileChanges;
     $('#logoutBtn').onclick = function(){ closeModal(); logout(); };
   } else {
@@ -945,7 +1011,7 @@ function saveProfileChanges(){
   var passRaw = $('#p_pass').value;
   if(!validUser(newUser)){ toast('Юзернейм: 3-20, латиница/_'); return; }
   if(!name){ toast('Введи имя'); return; }
-  if(avatar && !isValidUrl(avatar)){ toast('Некорректная ссылка на аватар'); return; }
+  if(avatar && !isMediaSrc(avatar)){ toast('Аватар: загрузи фото или вставь http-ссылку'); return; }
 
   var update = {name:name, bio:bio, avatar:avatar};
   if(passRaw) update.pass = hashPass(passRaw);
@@ -1070,7 +1136,8 @@ function openStories(){
       avatarHTML(p) + '</div><div class="story-thumb-label">' + esc(p.name || u) + '</div></div>';
   });
   html += '</div><div class="settings-sec"><h4>Добавить историю</h4>' +
-    '<input id="storyUrl" placeholder="Ссылка на фото / GIF">' +
+    '<label class="file-btn">📷 Загрузить фото с устройства<input type="file" accept="image/*" id="storyFile"></label>' +
+    '<input id="storyUrl" placeholder="Или вставь ссылку на фото/GIF">' +
     '<button class="btn" id="storyAdd">Опубликовать</button></div>';
   openModal(html);
 
@@ -1078,15 +1145,32 @@ function openStories(){
     el.onclick = function(){ viewStory(el.dataset.su); };
   });
 
+  var sf = $('#storyFile');
+  if(sf){
+    sf.addEventListener('change', function(e){
+      var file = e.target.files[0];
+      if(!file) return;
+      if(!/^image\//i.test(file.type)){ toast('Это не картинка'); return; }
+      toast('Обработка…');
+      compressImage(file, 1000, 0.75).then(function(dataUrl){
+        publishStory(dataUrl);
+      }).catch(function(){ toast('Ошибка'); });
+    });
+  }
+
   $('#storyAdd').onclick = function(){
     var url = $('#storyUrl').value.trim();
     if(!url || !isValidUrl(url)){ toast('Некорректная ссылка'); return; }
-    var key = nowTs();
-    api('stories/' + state.me.user + '/' + key, {method:'PUT', body: JSON.stringify({url:url, time:key})})
-      .then(function(){ closeModal(); return loadStories(); })
-      .then(function(){ toast('Опубликовано (живёт 3 часа)'); })
-      .catch(function(e){ console.error(e); toast('Ошибка'); });
+    publishStory(url);
   };
+}
+
+function publishStory(url){
+  var key = nowTs();
+  api('stories/' + state.me.user + '/' + key, {method:'PUT', body: JSON.stringify({url:url, time:key})})
+    .then(function(){ closeModal(); return loadStories(); })
+    .then(function(){ toast('Опубликовано (живёт 3 часа)'); })
+    .catch(function(e){ console.error(e); toast('Ошибка'); });
 }
 
 function viewStory(user){
@@ -1160,8 +1244,10 @@ function bindUI(){
   $('#btnAttach').onclick = function(e){ e.stopPropagation(); openAttachMenu(); };
   $$('#attachMenu button').forEach(function(b){
     b.onclick = function(){
-      if(b.dataset.att === 'sticker') openStickerPicker();
-      else attachPhoto(b.dataset.att);
+      var kind = b.dataset.att;
+      if(kind === 'sticker') openStickerPicker();
+      else if(kind === 'photo' || kind === 'gif') attachPhotoFromDevice(kind);
+      else if(kind === 'photo_url') attachPhotoByUrl();
     };
   });
   $('#backBtn').onclick = function(){
@@ -1201,7 +1287,6 @@ function init(){
     $('#auth').classList.remove('hidden');
   }
 
-  /* автоудаление историй старше 3 часов */
   setInterval(function(){
     if(!state.me) return;
     state.stories.forEach(function(s){
